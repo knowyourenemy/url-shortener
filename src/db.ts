@@ -1,7 +1,9 @@
-import { MongoClient, Db } from 'mongodb';
+import { MongoClient, Db, Collection } from 'mongodb';
 import { AppError, DbError, MissingEnvError } from './util/appError';
+import { IUser } from './models/user.db';
 
 let dbConnection: Db;
+let userCollection: Collection<IUser>;
 
 /**
  * Establish connection to DB.
@@ -23,3 +25,5 @@ export const connectToDatabase = async () => {
     }
   }
 };
+
+export const getUserCollection = (): Collection<IUser> => userCollection;
