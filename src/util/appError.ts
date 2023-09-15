@@ -20,7 +20,7 @@ export class BadRequestError extends AppError {
 
 export class MissingEnvError extends AppError {
   constructor() {
-    super("Missing environment variable.", 500);
+    super('Missing environment variable.', 500);
   }
 }
 
@@ -47,4 +47,3 @@ export class UnauthorizedError extends AppError {
     super(message, 401);
   }
 }
-
