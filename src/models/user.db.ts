@@ -36,24 +36,50 @@ export const insertUser = async (userData: IUser): Promise<void> => {
 };
 
 /**
- * Check if user session is valid.
+ * Check if session is valid.
  * @param sessionId - Session ID.
- * @returns {boolean} True if session is valid, and false otherwise.
+ * @returns {boolean} True if session with given session ID is valid, and false otherwise.
  */
-export const checkUserSession = async (sessionId: string): Promise<boolean> => {
+export const checkValidSession = async (sessionId: string): Promise<boolean> => {
   try {
     const userCollection = getUserCollection();
     const res = await userCollection.findOne({
       'sessions.sessionId': sessionId,
+      'sessions.expiry': {
+        $gt: Date.now(),
+      },
     });
     if (!res) {
       return false;
     }
-    const session = res.sessions.find((session) => session.sessionId === sessionId);
-    if (session!.expiry < Date.now()) {
-      return false;
-    }
     return true;
+  } catch (e: any) {
+    if (e instanceof AppError) {
+      throw e;
+    } else {
+      throw new DbError(e.message);
+    }
+  }
+};
+
+/**
+ * Find user by session ID.
+ * @param sessionId - Session ID.
+ * @returns {IUser} User document of user with given session Id.
+ */
+export const findUserBySession = async (sessionId: string): Promise<IUser> => {
+  try {
+    const userCollection = getUserCollection();
+    const res = await userCollection.findOne({
+      'sessions.sessionId': sessionId,
+      'sessions.expiry': {
+        $gt: Date.now(),
+      },
+    });
+    if (!res) {
+      throw new NotFoundError('User not found');
+    }
+    return res;
   } catch (e: any) {
     if (e instanceof AppError) {
       throw e;

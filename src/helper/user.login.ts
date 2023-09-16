@@ -2,10 +2,10 @@ import {
   ISession,
   SESSION_DURATION,
   addUserSession,
-  checkUserSession,
   deleteExpiredUserSessions,
   findUser,
   refreshUserSession,
+  checkValidSession,
 } from '../models/user.db';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -24,7 +24,7 @@ export const loginUser = async (
   const user = await findUser(username, password);
   await deleteExpiredUserSessions(user.userId);
   if (existingSessionId) {
-    const isValid = await checkUserSession(existingSessionId);
+    const isValid = await checkValidSession(existingSessionId);
     if (isValid) {
       await refreshUserSession(existingSessionId);
       return existingSessionId;

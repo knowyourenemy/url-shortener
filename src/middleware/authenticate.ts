@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError, DbError, UnauthorizedError } from '../util/appError';
-import { checkUserSession, refreshUserSession } from '../models/user.db';
+import { checkValidSession, findUserBySession, refreshUserSession } from '../models/user.db';
 
 /**
  * Middleware function to ensure user is authenticated.
@@ -10,13 +10,14 @@ import { checkUserSession, refreshUserSession } from '../models/user.db';
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const sessionId = req.cookies['sessionId'];
-    const isValid = await checkUserSession(sessionId);
-    if (isValid) {
-      await refreshUserSession(sessionId);
-      next();
-    } else {
-      throw new UnauthorizedError('Invalid user session');
+    const isValid = await checkValidSession(sessionId);
+    if (!isValid) {
+      throw new UnauthorizedError('Invalid session ID');
     }
+    const user = await findUserBySession(sessionId);
+    await refreshUserSession(sessionId);
+    req.user = user.userId;
+    next();
   } catch (e: any) {
     if (e instanceof AppError) {
       next(e);
