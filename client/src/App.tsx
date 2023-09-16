@@ -15,9 +15,12 @@ const App: React.FC = () => {
     <div className={styles.App}>
       <Navbar loggedIn={loggedIn} username={username} />
       <Routes>
-        <Route path="/" element={loggedIn ? <HomePage /> : <LandingPage />} />
+        <Route path="/" element={loggedIn ? <HomePage setLoggedIn={setLoggedIn} /> : <LandingPage />} />
         <Route path="login" element={loggedIn ? <Navigate to="/" /> : <LoginPage setLoggedIn={setLoggedIn} />} />
-        <Route path="manage" element={!loggedIn ? <Navigate to="/" /> : <ManagePage />} />
+        <Route
+          path="manage"
+          element={!loggedIn ? <Navigate to="/login" /> : <ManagePage setLoggedIn={setLoggedIn} />}
+        />
         <Route path="/:shortenedUrl" element={<UrlPage />} />
       </Routes>
     </div>

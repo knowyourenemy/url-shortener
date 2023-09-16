@@ -2,7 +2,11 @@ import { useState } from 'react';
 import styles from './HomePage.module.css';
 import { REACT_APP_CLIENT_URL } from '../util/config';
 
-const HomePage: React.FC = () => {
+interface HomePageProps {
+  setLoggedIn: (loggedIn: boolean) => void;
+}
+
+const HomePage: React.FC<HomePageProps> = ({ setLoggedIn }) => {
   const [url, setUrl] = useState<string | undefined>();
   const [shortenedUrl, setShortenedUrl] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
@@ -30,13 +34,13 @@ const HomePage: React.FC = () => {
       if (response.status === 400) {
         setError('URL already exists');
       } else if (response.status === 401) {
-        setError('Session expired');
+        setLoggedIn(false);
       } else {
         setError('unknown error');
       }
       return;
     }
-
+    setError(undefined);
     const result = await response.json();
     setShortenedUrl(`${REACT_APP_CLIENT_URL}${result.shortenedUrl}`);
   };

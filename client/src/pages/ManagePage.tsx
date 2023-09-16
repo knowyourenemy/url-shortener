@@ -1,15 +1,22 @@
 import { useEffect, useState } from 'react';
 import styles from './ManagePage.module.css';
+import { useNavigate } from 'react-router-dom';
 
 interface IUrl {
   shortenedUrl: string;
   originalUrl: string;
 }
 
-const ManagePage: React.FC = () => {
+interface ManagePageProps {
+  setLoggedIn: (loggedIn: boolean) => void;
+}
+
+const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
   const [urls, setUrls] = useState<IUrl[] | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [refresh, setRefresh] = useState<boolean>(true);
+
+  //   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +30,9 @@ const ManagePage: React.FC = () => {
         if (response.status === 400) {
           setError('URL already exists');
         } else if (response.status === 401) {
-          setError('Session expired');
+          //   setError('Session expired');
+          setLoggedIn(false);
+          //   navigate('/login');
         } else {
           setError('unknown error');
         }
@@ -65,6 +74,7 @@ const ManagePage: React.FC = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>Your URLs</div>
+      <div className={styles.error}>{error}</div>
       <table>
         <thead>
           <tr>
