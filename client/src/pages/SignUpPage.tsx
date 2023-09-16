@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './SignUpPage.module.css';
 import bcrypt from 'bcrypt';
+import { REACT_APP_SERVER_URL } from '../util/config';
 
 interface SignUpProps {
   setLoggedIn: (loggedIn: boolean) => void;
@@ -19,7 +20,7 @@ const SignUpPage: React.FC<SignUpProps> = ({ setLoggedIn, setLoggedInUsername })
       return;
     }
 
-    const response = await fetch('http://localhost:8000/api/user/', {
+    const response = await fetch(`${REACT_APP_SERVER_URL}api/user/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

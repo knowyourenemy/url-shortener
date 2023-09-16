@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './ManagePage.module.css';
 import { useNavigate } from 'react-router-dom';
+import { REACT_APP_SERVER_URL } from '../util/config';
+import { parseEncodedUrl } from '../util/parseEncodedUrl';
 
 interface IUrl {
   shortenedUrl: string;
@@ -20,7 +22,7 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://localhost:8000/api/url/', {
+      const response = await fetch(`${REACT_APP_SERVER_URL}api/url/`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -46,11 +48,11 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
   }, [refresh]);
 
   const copyUrl = (url: string): void => {
-    navigator.clipboard.writeText(url);
+    navigator.clipboard.writeText(parseEncodedUrl(url));
   };
 
   const deleteUrl = async (url: string): Promise<void> => {
-    const response = await fetch(`http://localhost:8000/api/url/${url}`, {
+    const response = await fetch(`${REACT_APP_SERVER_URL}api/url/${url}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -89,7 +91,7 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
               return (
                 <tr key={idx}>
                   <td>{url.originalUrl}</td>
-                  <td>{url.shortenedUrl}</td>
+                  <td>{parseEncodedUrl(url.shortenedUrl)}</td>
                   <td>
                     <button onClick={() => copyUrl(url.shortenedUrl)}>Copy</button>
                     <button onClick={() => deleteUrl(url.shortenedUrl)}>Delete</button>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './LoginPage.module.css';
+import { REACT_APP_SERVER_URL } from '../util/config';
 
 interface LoginProps {
   setLoggedIn: (loggedIn: boolean) => void;
@@ -12,7 +13,7 @@ const LoginPage: React.FC<LoginProps> = ({ setLoggedIn, setLoggedInUsername }) =
   const [error, setError] = useState<string | undefined>();
 
   const submitForm = async () => {
-    const response = await fetch('http://localhost:8000/api/user/login', {
+    const response = await fetch(`${REACT_APP_SERVER_URL}api/user/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './HomePage.module.css';
-import { REACT_APP_CLIENT_URL } from '../util/config';
+import { REACT_APP_CLIENT_URL, REACT_APP_SERVER_URL } from '../util/config';
+import { parseEncodedUrl } from '../util/parseEncodedUrl';
 
 interface HomePageProps {
   setLoggedIn: (loggedIn: boolean) => void;
@@ -23,7 +24,7 @@ const HomePage: React.FC<HomePageProps> = ({ setLoggedIn }) => {
       setUrl(modifiedUrl);
     }
 
-    const response = await fetch('http://localhost:8000/api/url/', {
+    const response = await fetch(`${REACT_APP_SERVER_URL}api/url/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -42,7 +43,7 @@ const HomePage: React.FC<HomePageProps> = ({ setLoggedIn }) => {
     }
     setError(undefined);
     const result = await response.json();
-    setShortenedUrl(`${REACT_APP_CLIENT_URL}${result.shortenedUrl}`);
+    setShortenedUrl(parseEncodedUrl(result.shortenedUrl));
   };
 
   return (
