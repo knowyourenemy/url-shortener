@@ -36,10 +36,10 @@ router.post('/login', async (req: Request, res: Response, next: NextFunction) =>
  */
 router.post('/logout', authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    if (!req.body.sessionId) {
+    if (!req.cookies['sessionId']) {
       throw new BadRequestError('Incomplete information to process request.');
     }
-    await deleteUserSession(req.user!._id, req.body.sessionId);
+    await deleteUserSession(req.user!._id, req.cookies['sessionId']);
     return res.clearCookie('sessionId').sendStatus(200);
   } catch (e: any) {
     if (e instanceof AppError) {
