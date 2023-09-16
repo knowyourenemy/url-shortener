@@ -54,11 +54,11 @@ export const checkOriginalUrlExists = async (originalUrl: string, userId: Object
 };
 
 /**
- * Get original URL for given shortened URL.
+ * Get URL for given shortened URL.
  * @param shortenedUrl - shortened URL.
- * @returns {boolean} Original URL.
+ * @returns {WithId<IUrl>} URL document.
  */
-export const getOriginalUrl = async (shortenedUrl: string): Promise<string> => {
+export const getUrl = async (shortenedUrl: string): Promise<WithId<IUrl>> => {
   try {
     const urlCollection = getUrlCollection();
     const res = await urlCollection.findOne({
@@ -67,7 +67,7 @@ export const getOriginalUrl = async (shortenedUrl: string): Promise<string> => {
     if (!res) {
       throw new NotFoundError('URL cannot be found.');
     }
-    return res.originalUrl;
+    return res;
   } catch (e: any) {
     if (e instanceof AppError) {
       throw e;
@@ -85,7 +85,7 @@ export const getOriginalUrl = async (shortenedUrl: string): Promise<string> => {
 export const getAllUserUrls = async (userId: ObjectId): Promise<WithId<IUrl>[]> => {
   try {
     const urlCollection = getUrlCollection();
-    const res = await urlCollection.find({ _id: userId }).toArray();
+    const res = await urlCollection.find({ userId: userId }).toArray();
     return res;
   } catch (e: any) {
     if (e instanceof AppError) {
@@ -98,16 +98,16 @@ export const getAllUserUrls = async (userId: ObjectId): Promise<WithId<IUrl>[]> 
 
 /**
  * Delete URL with given Id.
- * @param urlId - Object ID of URL to delete.
+ * @param shortenedUrl - Shortened URL of URL to delete.
  */
-export const deleteUrl = async (urlId: ObjectId): Promise<void> => {
+export const deleteUrl = async (shortenedUrl: string): Promise<void> => {
   try {
     const urlCollection = getUrlCollection();
     const res = await urlCollection.deleteOne({
-      _id: urlId,
+      shortenedUrl: shortenedUrl,
     });
     if (!res.acknowledged) {
-      throw new DbError(`Could not delete url with ID ${urlId}.`);
+      throw new DbError(`Could not delete url with shorened URL ${shortenedUrl}.`);
     }
   } catch (e: any) {
     if (e instanceof AppError) {
