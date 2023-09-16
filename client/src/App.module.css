@@ -1,0 +1,7 @@
+.App {
+  margin: 0px;
+  box-sizing: border-box;
+  background-color: rgb(245, 242, 239);
+  width: 100vw;
+  min-height: 100vh;
+}

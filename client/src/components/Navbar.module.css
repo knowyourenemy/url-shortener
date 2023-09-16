@@ -1,0 +1,39 @@
+.wrapper {
+  height: 60px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  padding: 5px 10px;
+  box-sizing: border-box;
+}
+
+.logo {
+  width: 35%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: xx-large;
+  font-weight: 600;
+}
+
+.links {
+  width: 65%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.link {
+  padding: 10px;
+  font-size: x-large;
+  font-weight: 500;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
