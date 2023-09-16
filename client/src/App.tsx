@@ -13,7 +13,7 @@ const App: React.FC = () => {
   const [username, setUsername] = useState<string | undefined>();
   return (
     <div className={styles.App}>
-      <Navbar loggedIn={loggedIn} username={username} />
+      <Navbar loggedIn={loggedIn} setLoggedIn={setLoggedIn} username={username} />
       <Routes>
         <Route path="/" element={loggedIn ? <HomePage setLoggedIn={setLoggedIn} /> : <LandingPage />} />
         <Route
