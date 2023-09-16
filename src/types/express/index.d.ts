@@ -1,3 +1,4 @@
+import { WithId } from 'mongodb';
 import { IUser } from '../../models/user.db';
 
 export {};
@@ -5,7 +6,7 @@ export {};
 declare global {
   namespace Express {
     export interface Request {
-      user?: IUser;
+      user?: WithId<IUser>;
     }
   }
 }

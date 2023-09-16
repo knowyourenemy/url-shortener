@@ -221,3 +221,32 @@ export const addUserSession = async (userId: ObjectId, session: ISession) => {
     }
   }
 };
+
+/**
+ * delete given session from user with given userId.
+ * @param userId - Object Id of user to update.
+ * @param sessionId - session ID to delete.
+ */
+export const deleteUserSession = async (userId: ObjectId, sessionId: string) => {
+  try {
+    const userCollection = getUserCollection();
+    await userCollection.findOneAndUpdate(
+      {
+        _id: userId,
+      },
+      {
+        $pull: {
+          sessions: {
+            sessionId: sessionId,
+          },
+        },
+      },
+    );
+  } catch (e: any) {
+    if (e instanceof AppError) {
+      throw e;
+    } else {
+      throw new DbError(e.message);
+    }
+  }
+};

@@ -22,7 +22,7 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
     if (e instanceof AppError) {
       next(e);
     } else {
-      next(new DbError(e.message));
+      next(new UnauthorizedError(e.message));
     }
   }
 };
