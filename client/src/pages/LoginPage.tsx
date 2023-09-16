@@ -3,30 +3,35 @@ import styles from './LoginPage.module.css';
 
 interface LoginProps {
   setLoggedIn: (loggedIn: boolean) => void;
+  setLoggedInUsername: (username: string | undefined) => void;
 }
 
-const LoginPage: React.FC<LoginProps> = ({ setLoggedIn }) => {
+const LoginPage: React.FC<LoginProps> = ({ setLoggedIn, setLoggedInUsername }) => {
   const [username, setUsername] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
 
-  const submitForm = () => {
-    fetch('http://localhost:8000/api/user/login', {
+  const submitForm = async () => {
+    const response = await fetch('http://localhost:8000/api/user/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({ username: username, password: password }),
-    }).then((res) => {
-      if (res.status === 200) {
-        setLoggedIn(true);
-      } else if (res.status === 400) {
+    });
+
+    if (!response.ok) {
+      if (response.status === 400) {
         setError('Incomplete information.');
-      } else if (res.status == 404) {
+      } else if (response.status == 404) {
         setError('User not found.');
       } else {
         setError('Something went wrong.');
       }
-    });
+      return;
+    }
+
+    setLoggedIn(true);
+    setLoggedInUsername(username);
   };
 
   return (

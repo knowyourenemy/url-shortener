@@ -13,11 +13,12 @@ const Navbar: React.FC<NavbarProps> = ({ loggedIn, username }) => {
       <div className={styles.links}>
         {loggedIn ? (
           <>
+            <div className={styles.greeting}>Hello, {username}!</div>
             <div className={styles.link}>
               <NavLink to="/manage">Manage</NavLink>
             </div>
             <div className={styles.link}>
-              <NavLink to="/logout">Logout</NavLink>
+              <div>Logout</div>
             </div>
           </>
         ) : (
