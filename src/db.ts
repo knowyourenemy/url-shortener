@@ -10,12 +10,13 @@ let userCollection: Collection<IUser>;
  */
 export const connectToDatabase = async () => {
   try {
-    if (!process.env.DB_CONN_STRING || !process.env.DB_NAME) {
+    if (!process.env.DB_CONN_STRING || !process.env.DB_NAME || !process.env.USER_COLLECTION_NAME) {
       throw new MissingEnvError();
     }
     const client: MongoClient = new MongoClient(process.env.DB_CONN_STRING);
     await client.connect();
     dbConnection = client.db(process.env.DB_NAME);
+    userCollection = dbConnection.collection(process.env.USER_COLLECTION_NAME);
     console.log(`Successfully connected to database: ${dbConnection.databaseName}.`);
   } catch (e: any) {
     if (e instanceof AppError) {
