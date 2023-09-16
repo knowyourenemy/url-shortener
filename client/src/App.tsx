@@ -7,6 +7,7 @@ import LandingPage from './pages/LandingPage';
 import HomePage from './pages/HomePage';
 import UrlPage from './pages/UrlPage';
 import ManagePage from './pages/ManagePage';
+import SignUpPage from './pages/SignUpPage';
 
 const App: React.FC = () => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
@@ -20,6 +21,12 @@ const App: React.FC = () => {
           path="login"
           element={
             loggedIn ? <Navigate to="/" /> : <LoginPage setLoggedIn={setLoggedIn} setLoggedInUsername={setUsername} />
+          }
+        />
+        <Route
+          path="signup"
+          element={
+            loggedIn ? <Navigate to="/" /> : <SignUpPage setLoggedIn={setLoggedIn} setLoggedInUsername={setUsername} />
           }
         />
         <Route
