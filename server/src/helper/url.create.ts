@@ -2,7 +2,10 @@ import { ObjectId } from 'mongodb';
 import { IUrl, checkOriginalUrlExists, insertUrl } from '../models/url.db';
 import { AppError, BadRequestError, HelperError } from '../util/appError';
 
-const AVAILABLE_CHARS = 'abcdefghijkmnpqrstuvwxyzABCDEFGHIJKMNPQRSTUVWXYZ123456789';
+// a-zA-Z0-9
+// Excludes 'l', 'L', 'o', 'O', '0', '1' to make URL easier to read.
+// This is because some of these characters (e.g. l, 1) are easily confused with each other.
+const AVAILABLE_CHARS = 'abcdefghijkmnpqrstuvwxyzABCDEFGHIJKMNPQRSTUVWXYZ23456789';
 const ENCODE_LENGTH = 7;
 
 /**
