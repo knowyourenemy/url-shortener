@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { connectToDatabase } from './db';
 import { AppError } from './util/appError';
 import userRouter from './routes/user';
+import urlRouter from './routes/url';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
@@ -20,6 +21,7 @@ const serveApp = async () => {
     res.send('URL Shortener');
   });
   app.use('/api/user', userRouter);
+  app.use('/api/url', urlRouter);
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err);
     if (err instanceof AppError) {
