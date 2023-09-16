@@ -5,6 +5,7 @@ import { AppError } from './util/appError';
 import userRouter from './routes/user';
 import urlRouter from './routes/url';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ const serveApp = async () => {
   await connectToDatabase();
   app.use(express.json());
   app.use(cookieParser());
+  app.use(cors());
   app.get('/', (req: Request, res: Response) => {
     res.send('URL Shortener');
   });
