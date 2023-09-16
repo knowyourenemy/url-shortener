@@ -2,6 +2,8 @@ import express, { Express, NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { connectToDatabase } from './db';
 import { AppError } from './util/appError';
+import userRouter from './routes/user';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -12,9 +14,12 @@ const serveApp = async () => {
   const app: Express = express();
   const port = process.env.PORT;
   await connectToDatabase();
+  app.use(express.json());
+  app.use(cookieParser());
   app.get('/', (req: Request, res: Response) => {
     res.send('URL Shortener');
   });
+  app.use('/api/user', userRouter);
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err);
     if (err instanceof AppError) {
