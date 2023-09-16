@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { authenticate } from '../middleware/authenticate';
-import { AppError, RouteError } from '../util/appError';
+import { AppError, BadRequestError, RouteError } from '../util/appError';
 import { createUser } from '../helper/user.create';
 import { loginUser } from '../helper/user.login';
 import { createUrl } from '../helper/url.create';
@@ -16,6 +16,9 @@ router
    */
   .get('/:shortenedUrl', async (req: Request, res: Response, next: NextFunction) => {
     try {
+      if (!req.params.shortenedUrl) {
+        throw new BadRequestError('Incomplete information to process request.');
+      }
       const url = await getUrl(req.params.shortenedUrl);
       return res.redirect(url.originalUrl);
     } catch (e: any) {
@@ -32,6 +35,9 @@ router
    */
   .delete('/:shortenedUrl', authenticate, authorize, async (req: Request, res: Response, next: NextFunction) => {
     try {
+      if (!req.params.shortenedUrl) {
+        throw new BadRequestError('Incomplete information to process request.');
+      }
       await deleteUrl(req.params.shortenedUrl);
       return res.sendStatus(200);
     } catch (e: any) {
@@ -50,6 +56,9 @@ router
    */
   .post('/', authenticate, async (req: Request, res: Response, next: NextFunction) => {
     try {
+      if (!req.body.originalUrl) {
+        throw new BadRequestError('Incomplete information to process request.');
+      }
       const shortenedUrl = await createUrl(req.body.originalUrl, req.user!._id);
       return res.status(200).send({ shortenedUrl: shortenedUrl });
     } catch (e: any) {

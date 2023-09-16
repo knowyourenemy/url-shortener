@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { authenticate } from '../middleware/authenticate';
-import { AppError, RouteError } from '../util/appError';
+import { AppError, BadRequestError, RouteError } from '../util/appError';
 import { createUser } from '../helper/user.create';
 import { loginUser } from '../helper/user.login';
 import { deleteUserSession } from '../models/user.db';
@@ -12,6 +12,9 @@ const router = express.Router();
  */
 router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (!req.body.username || !req.body.password) {
+      throw new BadRequestError('Incomplete information to process request.');
+    }
     const sessionId = await loginUser(req.body.username, req.body.password, req.cookies['sessionId']);
     return res
       .cookie('sessionId', sessionId, {
@@ -33,6 +36,9 @@ router.post('/login', async (req: Request, res: Response, next: NextFunction) =>
  */
 router.post('/logout', authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (!req.body.sessionId) {
+      throw new BadRequestError('Incomplete information to process request.');
+    }
     await deleteUserSession(req.user!._id, req.body.sessionId);
     return res.clearCookie('sessionId').sendStatus(200);
   } catch (e: any) {
@@ -49,6 +55,9 @@ router.post('/logout', authenticate, async (req: Request, res: Response, next: N
  */
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (!req.body.username || !req.body.password) {
+      throw new BadRequestError('Incomplete information to process request.');
+    }
     const sessionId = await createUser({
       username: req.body.username,
       password: req.body.password,
