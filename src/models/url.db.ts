@@ -65,7 +65,7 @@ export const getUrl = async (shortenedUrl: string): Promise<WithId<IUrl>> => {
       shortenedUrl: shortenedUrl,
     });
     if (!res) {
-      throw new NotFoundError('URL cannot be found.');
+      throw new NotFoundError('URL not found.');
     }
     return res;
   } catch (e: any) {

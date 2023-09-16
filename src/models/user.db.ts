@@ -127,7 +127,7 @@ export const findUser = async (username: string, password: string): Promise<With
       password: password,
     });
     if (!user) {
-      throw new NotFoundError('User does not exist.');
+      throw new NotFoundError('User not found.');
     }
     return user;
   } catch (e: any) {
