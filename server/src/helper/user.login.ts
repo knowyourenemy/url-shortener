@@ -8,7 +8,8 @@ import {
   checkValidSession,
 } from '../models/user.db';
 import { v4 as uuidv4 } from 'uuid';
-import { AppError, HelperError } from '../util/appError';
+import { AppError, HelperError, NotFoundError } from '../util/appError';
+import bcrypt from 'bcrypt';
 
 /**
  * Log-in user with given username and password.
@@ -23,7 +24,11 @@ export const loginUser = async (
   existingSessionId: string | undefined,
 ): Promise<string> => {
   try {
-    const user = await findUser(username, password);
+    const user = await findUser(username);
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      throw new NotFoundError('User not found.');
+    }
     await deleteExpiredUserSessions(user._id);
     if (existingSessionId) {
       const isValid = await checkValidSession(existingSessionId);

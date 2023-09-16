@@ -114,17 +114,15 @@ export const checkUsernameExists = async (username: string): Promise<boolean> =>
 };
 
 /**
- * Find user with given username and password.
+ * Find user with given username.
  * @param username - Username.
- * @param password - Password
  * @returns {WithId<IUser>} - User document.
  */
-export const findUser = async (username: string, password: string): Promise<WithId<IUser>> => {
+export const findUser = async (username: string): Promise<WithId<IUser>> => {
   try {
     const userCollection = getUserCollection();
     const user = await userCollection.findOne({
       username: username,
-      password: password,
     });
     if (!user) {
       throw new NotFoundError('User not found.');

@@ -1,6 +1,9 @@
 import { IUser, SESSION_DURATION, checkUsernameExists, insertUser } from '../models/user.db';
 import { AppError, BadRequestError, HelperError } from '../util/appError';
 import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcrypt';
+
+const SALT_ROUNDS = 10;
 
 /**
  * Create a new user
@@ -14,9 +17,10 @@ export const createUser = async (userData: Pick<IUser, 'username' | 'password'>)
       throw new BadRequestError('User already exists.');
     }
     const sessionId = uuidv4();
+    const hashedPassword = await bcrypt.hash(userData.password, SALT_ROUNDS);
     const newUser: IUser = {
       username: userData.username,
-      password: userData.password,
+      password: hashedPassword,
       sessions: [
         {
           sessionId: sessionId,
