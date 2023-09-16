@@ -3,6 +3,9 @@ import Navbar from './components/Navbar';
 import styles from './App.module.css';
 import { useEffect, useState } from 'react';
 import LoginPage from './pages/LoginPage';
+import LandingPage from './pages/LandingPage';
+import HomePage from './pages/HomePage';
+import UrlPage from './pages/UrlPage';
 
 const App: React.FC = () => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
@@ -11,7 +14,9 @@ const App: React.FC = () => {
     <div className={styles.App}>
       <Navbar loggedIn={loggedIn} username={username} />
       <Routes>
+        <Route path="/" element={loggedIn ? <HomePage /> : <LandingPage />} />
         <Route path="login" element={loggedIn ? <Navigate to="/" /> : <LoginPage setLoggedIn={setLoggedIn} />} />
+        <Route path="/:shortenedUrl" element={<UrlPage />} />
       </Routes>
     </div>
   );
