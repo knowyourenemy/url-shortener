@@ -16,7 +16,7 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
     }
     const user = await findUserBySession(sessionId);
     await refreshUserSession(sessionId);
-    req.user = user.userId;
+    req.user = user;
     next();
   } catch (e: any) {
     if (e instanceof AppError) {

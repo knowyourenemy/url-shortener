@@ -22,7 +22,7 @@ export const loginUser = async (
   existingSessionId: string | undefined,
 ): Promise<string> => {
   const user = await findUser(username, password);
-  await deleteExpiredUserSessions(user.userId);
+  await deleteExpiredUserSessions(user._id);
   if (existingSessionId) {
     const isValid = await checkValidSession(existingSessionId);
     if (isValid) {
@@ -35,6 +35,6 @@ export const loginUser = async (
     sessionId: sessionId,
     expiry: Date.now() + SESSION_DURATION,
   };
-  await addUserSession(user.userId, session);
+  await addUserSession(user._id, session);
   return sessionId;
 };

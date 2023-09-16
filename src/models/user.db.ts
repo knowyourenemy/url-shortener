@@ -1,3 +1,4 @@
+import { ObjectId, WithId } from 'mongodb';
 import { getUserCollection } from '../db';
 import { AppError, DbError, NotFoundError } from '../util/appError';
 
@@ -10,7 +11,6 @@ export interface ISession {
 }
 
 export interface IUser {
-  userId: string;
   username: string;
   password: string;
   sessions: ISession[];
@@ -65,9 +65,9 @@ export const checkValidSession = async (sessionId: string): Promise<boolean> => 
 /**
  * Find user by session ID.
  * @param sessionId - Session ID.
- * @returns {IUser} User document of user with given session Id.
+ * @returns {WithId<IUser>} User document of user with given session Id.
  */
-export const findUserBySession = async (sessionId: string): Promise<IUser> => {
+export const findUserBySession = async (sessionId: string): Promise<WithId<IUser>> => {
   try {
     const userCollection = getUserCollection();
     const res = await userCollection.findOne({
@@ -117,9 +117,9 @@ export const checkUsernameExists = async (username: string): Promise<boolean> =>
  * Find user with given username and password.
  * @param username - Username.
  * @param password - Password
- * @returns {IUser} - User document.
+ * @returns {WithId<IUser>} - User document.
  */
-export const findUser = async (username: string, password: string): Promise<IUser> => {
+export const findUser = async (username: string, password: string): Promise<WithId<IUser>> => {
   try {
     const userCollection = getUserCollection();
     const user = await userCollection.findOne({
@@ -167,14 +167,14 @@ export const refreshUserSession = async (sessionId: string): Promise<void> => {
 
 /**
  * Delete all expired sessions for user with given userId.
- * @param userId userId of user to delete expired sessions for.
+ * @param userId Object Id of user to delete expired sessions for.
  */
-export const deleteExpiredUserSessions = async (userId: string) => {
+export const deleteExpiredUserSessions = async (userId: ObjectId) => {
   try {
     const userCollection = getUserCollection();
     await userCollection.findOneAndUpdate(
       {
-        userId: userId,
+        _id: userId,
       },
       {
         $pull: {
@@ -197,15 +197,15 @@ export const deleteExpiredUserSessions = async (userId: string) => {
 
 /**
  * Add given session to user with given userId.
- * @param userId - userId of user to update.
+ * @param userId - Object Id of user to update.
  * @param session - session document.
  */
-export const addUserSession = async (userId: string, session: ISession) => {
+export const addUserSession = async (userId: ObjectId, session: ISession) => {
   try {
     const userCollection = getUserCollection();
     await userCollection.findOneAndUpdate(
       {
-        userId: userId,
+        _id: userId,
       },
       {
         $push: {
