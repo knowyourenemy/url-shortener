@@ -32,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({ loggedIn, username, setLoggedIn }) => {
               <NavLink to="/manage">Manage</NavLink>
             </div>
             <div className={styles.link} onClick={logout}>
-              Logout
+              <div className={styles.logout}>Logout</div>
             </div>
           </>
         ) : (

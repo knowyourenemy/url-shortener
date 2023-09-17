@@ -9,3 +9,11 @@
 .icon {
   width: 30px;
 }
+
+.wrapper:hover {
+  cursor: pointer;
+}
+
+.wrapper:active {
+  transform: scale(1.1);
+}

@@ -19,7 +19,7 @@ const HomePage: React.FC<HomePageProps> = ({ setLoggedIn }) => {
   };
   const submitUrl = async () => {
     if (!url) {
-      setError('URL not set.');
+      setError('Please input a URL to shorten.');
       return;
     }
 

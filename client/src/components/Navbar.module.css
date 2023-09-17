@@ -33,6 +33,10 @@
   font-weight: 400;
 }
 
+.logout:hover {
+  cursor: pointer;
+}
+
 a {
   text-decoration: none;
   color: white;

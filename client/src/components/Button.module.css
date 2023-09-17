@@ -13,3 +13,11 @@
   font-size: 1.2rem;
   font-weight: 600;
 }
+
+.wrapper:hover {
+  cursor: pointer;
+}
+
+.wrapper:active {
+  transform: scale(1.1);
+}
