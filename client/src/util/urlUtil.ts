@@ -15,3 +15,8 @@ export const formatUrl = (url: string): string => {
   }
   return modifiedUrl;
 };
+
+export const formatDate = (epochTime: number): string => {
+  const date = new Date(epochTime);
+  return date.toDateString();
+};

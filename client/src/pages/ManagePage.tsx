@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from './ManagePage.module.css';
-import { useNavigate } from 'react-router-dom';
 import { REACT_APP_SERVER_URL } from '../util/config';
-import { copyUrl, parseEncodedUrl } from '../util/urlUtil';
+import { copyUrl, formatDate, parseEncodedUrl } from '../util/urlUtil';
+import IconButton from '../components/IconButton';
+import copyIcon from '../assets/copy.png';
+import deleteIcon from '../assets/delete.svg';
 
 interface IUrl {
   shortenedUrl: string;
@@ -18,8 +20,6 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
   const [error, setError] = useState<string | undefined>();
   const [refresh, setRefresh] = useState<boolean>(true);
 
-  //   const navigate = useNavigate();
-
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`${REACT_APP_SERVER_URL}api/url/`, {
@@ -29,14 +29,10 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
       });
 
       if (!response.ok) {
-        if (response.status === 400) {
-          setError('URL already exists');
-        } else if (response.status === 401) {
-          //   setError('Session expired');
+        if (response.status === 401) {
           setLoggedIn(false);
-          //   navigate('/login');
         } else {
-          setError('unknown error');
+          setError('Something went wrong. Please try again later.');
         }
         return;
       }
@@ -55,12 +51,10 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
     });
 
     if (!response.ok) {
-      if (response.status === 400) {
-        setError('URL already exists');
-      } else if (response.status === 401) {
-        setError('Session expired');
+      if (response.status === 401) {
+        setLoggedIn(false);
       } else {
-        setError('unknown error');
+        setError('Could not delete URL. Please try again later.');
       }
       return;
     }
@@ -71,32 +65,38 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.header}>Your URLs</div>
-      <div className={styles.error}>{error}</div>
-      <table>
-        <thead>
-          <tr>
-            <th>Original URL</th>
-            <th>Shortened URL</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {urls &&
-            urls.map((url, idx) => {
-              return (
-                <tr key={idx}>
-                  <td>{url.originalUrl}</td>
-                  <td>{parseEncodedUrl(url.shortenedUrl)}</td>
-                  <td>
-                    <button onClick={() => copyUrl(url.shortenedUrl)}>Copy</button>
-                    <button onClick={() => deleteUrl(url.shortenedUrl)}>Delete</button>
-                  </td>
+      <div className={styles.content}>
+        <div className={styles.error}>{error}</div>
+        {urls && (
+          <div className={styles['table-container']}>
+            <table className={styles.table}>
+              <thead>
+                <tr className={styles['table-header']}>
+                  <th>Date Created</th>
+                  <th>Original URL</th>
+                  <th>Shortened URL</th>
+                  <th>Action</th>
                 </tr>
-              );
-            })}
-        </tbody>
-      </table>
+              </thead>
+              <tbody>
+                {urls.map((url, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td>{formatDate(1694992263000)}</td>
+                      <td>{url.originalUrl}</td>
+                      <td>{parseEncodedUrl(url.shortenedUrl)}</td>
+                      <td className={styles.buttons}>
+                        <IconButton onClick={() => copyUrl(parseEncodedUrl(url.shortenedUrl))} image={copyIcon} />
+                        <IconButton onClick={() => deleteUrl(url.shortenedUrl)} image={deleteIcon} />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
