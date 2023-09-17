@@ -29,6 +29,13 @@
   height: 35px;
   box-sizing: border-box;
   font-size: 1.2rem;
+  background-color: #424769;
+  border: none;
+  color: white;
+}
+
+.input:focus {
+  outline: none;
 }
 
 .error {
