@@ -14,6 +14,7 @@
 .headline {
   text-align: center;
   font-size: 2.5rem;
+  padding: 10px;
 }
 
 .buttons {
@@ -24,4 +25,28 @@
 
 .buttons > * {
   margin: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+  .headline {
+    font-size: 2.2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    width: 350px;
+  }
+  .headline {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .content {
+    width: 320px;
+  }
+  .headline {
+    font-size: 1.8rem;
+  }
 }
