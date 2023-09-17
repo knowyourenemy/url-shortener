@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import styles from './HomePage.module.css';
 import { REACT_APP_CLIENT_URL, REACT_APP_SERVER_URL } from '../util/config';
-import { parseEncodedUrl } from '../util/parseEncodedUrl';
+import { copyUrl, formatUrl, parseEncodedUrl } from '../util/urlUtil';
+import Button from '../components/Button';
 
 interface HomePageProps {
   setLoggedIn: (loggedIn: boolean) => void;
@@ -12,17 +13,18 @@ const HomePage: React.FC<HomePageProps> = ({ setLoggedIn }) => {
   const [shortenedUrl, setShortenedUrl] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
 
+  const clearUrl = () => {
+    setUrl(undefined);
+    setShortenedUrl(undefined);
+  };
   const submitUrl = async () => {
     if (!url) {
       setError('URL not set.');
       return;
     }
 
-    let modifiedUrl = url;
-    if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
-      modifiedUrl = 'http://' + url;
-      setUrl(modifiedUrl);
-    }
+    const modifiedUrl = formatUrl(url);
+    setUrl(modifiedUrl);
 
     const response = await fetch(`${REACT_APP_SERVER_URL}api/url/`, {
       method: 'POST',
@@ -33,11 +35,11 @@ const HomePage: React.FC<HomePageProps> = ({ setLoggedIn }) => {
 
     if (!response.ok) {
       if (response.status === 400) {
-        setError('URL already exists');
+        setError('URL already exists. Please shorten another URL.');
       } else if (response.status === 401) {
         setLoggedIn(false);
       } else {
-        setError('unknown error');
+        setError('Something went wrong. Please try again later.');
       }
       return;
     }
@@ -48,27 +50,32 @@ const HomePage: React.FC<HomePageProps> = ({ setLoggedIn }) => {
 
   return (
     <div className={styles.wrapper}>
-      {!shortenedUrl ? (
-        <>
-          <div className={styles.headline}>Shorten a URL now!</div>
-          <input className={styles.input} value={url} onChange={(e) => setUrl(e.target.value)} />
-          <button type="button" onClick={submitUrl}>
-            Submit
-          </button>
-        </>
-      ) : (
-        <>
-          <div>Original URL: {url}</div>
-          <div>
-            Shortened URL:{' '}
-            <a href={shortenedUrl} target="_blank">
-              {shortenedUrl}
-            </a>
-          </div>
-        </>
-      )}
-
-      {error && <div>{error}</div>}
+      <div className={styles.content}>
+        {error && <div className={styles.error}>{error}</div>}
+        {!shortenedUrl ? (
+          <>
+            <div className={styles.header}>Enter your long URL here:</div>
+            <input className={styles.input} value={url} onChange={(e) => setUrl(e.target.value)} />
+            <Button text="Shorten URL" onClick={submitUrl} />
+          </>
+        ) : (
+          <>
+            <div className={styles.row}>
+              <div className={styles.label}>Long URL:</div>
+              <input className={styles.input} value={url} disabled={true} />
+            </div>
+            <div className={styles.row}>
+              <div className={styles.label}>Short URL:</div>
+              <input className={styles.input} value={shortenedUrl} disabled={true} />
+            </div>
+            <div className={styles.buttons}>
+              <Button onClick={() => copyUrl(shortenedUrl)} text="Copy" />
+              <Button navTo="/manage" text="Manage URLs" />
+              <Button onClick={clearUrl} text="Shorten Another" />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

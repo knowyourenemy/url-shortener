@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './ManagePage.module.css';
 import { useNavigate } from 'react-router-dom';
 import { REACT_APP_SERVER_URL } from '../util/config';
-import { parseEncodedUrl } from '../util/parseEncodedUrl';
+import { copyUrl, parseEncodedUrl } from '../util/urlUtil';
 
 interface IUrl {
   shortenedUrl: string;
@@ -46,10 +46,6 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
     };
     fetchData();
   }, [refresh]);
-
-  const copyUrl = (url: string): void => {
-    navigator.clipboard.writeText(parseEncodedUrl(url));
-  };
 
   const deleteUrl = async (url: string): Promise<void> => {
     const response = await fetch(`${REACT_APP_SERVER_URL}api/url/${url}`, {
