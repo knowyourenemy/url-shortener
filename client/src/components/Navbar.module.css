@@ -78,3 +78,14 @@ a {
     display: none;
   }
 }
+
+@media screen and (min-width: 1600px) {
+  .logo {
+    font-size: 2rem;
+  }
+
+  .link,
+  .greeting {
+    font-size: 1.7rem;
+  }
+}

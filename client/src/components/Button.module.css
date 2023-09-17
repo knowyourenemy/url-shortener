@@ -48,3 +48,13 @@
     font-size: 0.9rem;
   }
 }
+
+@media screen and (min-width: 1600px) {
+  .wrapper {
+    width: 200px;
+    height: 50px;
+  }
+  .text {
+    font-size: 1.5rem;
+  }
+}

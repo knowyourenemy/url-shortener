@@ -16,7 +16,7 @@
 
 .table-container {
   max-height: 60vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   width: 100%;
 }
 
@@ -45,10 +45,11 @@
 
 th,
 td {
+  border: none;
   padding: 10px 20px;
   border-bottom: 1px solid black;
   max-width: 500px;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .buttons {
@@ -70,7 +71,8 @@ td {
 } */
 
 @media screen and (max-width: 1024px) {
-  .table {
+  .table,
+  .error {
     font-size: 1rem;
   }
 
@@ -89,7 +91,8 @@ td {
   .content {
     width: 90%;
   }
-  .table {
+  .table,
+  .error {
     font-size: 0.8rem;
   }
 
@@ -111,7 +114,8 @@ td {
     .content {
       width: 95%;
     }
-    .table {
+    .table,
+    .error {
       font-size: 0.7rem;
     }
 
@@ -128,5 +132,22 @@ td {
     .buttons > * {
       margin: 2px;
     }
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .table,
+  .error {
+    font-size: 1.5rem;
+  }
+
+  .table-header {
+    font-size: 1.8rem;
+  }
+
+  th,
+  td {
+    max-width: 400px;
+    padding: 10px 10px;
   }
 }

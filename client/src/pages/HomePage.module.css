@@ -15,7 +15,7 @@
 }
 
 .header {
-  font-size: 1.5rem;
+  font-size: 1.9rem;
 }
 
 .input {
@@ -33,10 +33,11 @@
 }
 
 .row {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   width: 100%;
   box-sizing: border-box;
   padding: 10px 0px;
+  font-weight: 600;
 }
 
 .buttons {
@@ -55,22 +56,28 @@
 
 .error {
   color: red;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   margin: 15px 0px;
 }
 
 @media screen and (max-width: 1024px) {
-  .header,
+  .header {
+    font-size: 1.5rem;
+  }
   .row,
-  .input {
+  .input,
+  .erro {
     font-size: 1.3rem;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .header,
+  .header {
+    font-size: 1.3rem;
+  }
   .row,
-  .input {
+  .input,
+  .error {
     font-size: 1.1rem;
   }
 
@@ -80,9 +87,13 @@
 }
 
 @media screen and (max-width: 480px) {
-  .header,
+  .header {
+    font-size: 1.2rem;
+  }
+
   .row,
-  .input {
+  .input,
+  .error {
     font-size: 1rem;
   }
 
@@ -92,5 +103,16 @@
 
   .buttons > * {
     margin: 5px 0px;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .header {
+    font-size: 2.2rem;
+  }
+  .row,
+  .input,
+  .error {
+    font-size: 1.9rem;
   }
 }
