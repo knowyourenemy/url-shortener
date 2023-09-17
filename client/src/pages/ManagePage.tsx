@@ -5,6 +5,7 @@ import { copyUrl, formatDate, parseEncodedUrl } from '../util/urlUtil';
 import IconButton from '../components/IconButton';
 import copyIcon from '../assets/copy.png';
 import deleteIcon from '../assets/delete.svg';
+import Button from '../components/Button';
 
 interface IUrl {
   shortenedUrl: string;
@@ -74,37 +75,43 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
+        <div className={styles.header}>My Saved URLs</div>
         <div className={styles.error}>{error}</div>
         {urls && (
-          <div className={styles['table-container']}>
-            <table className={styles.table}>
-              <thead>
-                <tr className={styles['table-header']}>
-                  <th>Date Created</th>
-                  <th>Original URL</th>
-                  <th>Shortened URL</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {urls.map((url, idx) => {
-                  return (
-                    <tr key={idx}>
-                      <td>{formatDate(1694992263000)}</td>
-                      <td>{url.originalUrl}</td>
-                      <td>{parseEncodedUrl(url.shortenedUrl)}</td>
-                      <td>
-                        <div className={styles.buttons}>
-                          <IconButton onClick={() => copyUrl(parseEncodedUrl(url.shortenedUrl))} image={copyIcon} />
-                          <IconButton onClick={() => deleteUrl(url.shortenedUrl)} image={deleteIcon} />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <>
+            <div className={styles['table-container']}>
+              <table className={styles.table}>
+                <thead>
+                  <tr className={styles['table-header']}>
+                    <th>Date Created</th>
+                    <th>Original URL</th>
+                    <th>Shortened URL</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {urls.map((url, idx) => {
+                    return (
+                      <tr key={idx}>
+                        <td>{formatDate(1694992263000)}</td>
+                        <td>{url.originalUrl}</td>
+                        <td>{parseEncodedUrl(url.shortenedUrl)}</td>
+                        <td>
+                          <div className={styles['table-buttons']}>
+                            <IconButton onClick={() => copyUrl(parseEncodedUrl(url.shortenedUrl))} image={copyIcon} />
+                            <IconButton onClick={() => deleteUrl(url.shortenedUrl)} image={deleteIcon} />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <div className={styles.buttons}>
+              <Button navTo="/" text="Add New" />
+            </div>
+          </>
         )}
       </div>
     </div>
