@@ -22,8 +22,35 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`${REACT_APP_SERVER_URL}api/url/`, {
-        method: 'GET',
+      try {
+        const response = await fetch(`${REACT_APP_SERVER_URL}api/url/`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+        });
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            setLoggedIn(false);
+          } else {
+            setError('Something went wrong. Please try again later.');
+          }
+          return;
+        }
+        setError(undefined);
+        const result = await response.json();
+        setUrls(result.urls);
+      } catch (e) {
+        setError('Something went wrong. Please try again later.');
+      }
+    };
+    fetchData();
+  }, [refresh]);
+
+  const deleteUrl = async (url: string): Promise<void> => {
+    try {
+      const response = await fetch(`${REACT_APP_SERVER_URL}api/url/${url}`, {
+        method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
       });
@@ -32,35 +59,16 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
         if (response.status === 401) {
           setLoggedIn(false);
         } else {
-          setError('Something went wrong. Please try again later.');
+          setError('Could not delete URL. Please try again later.');
         }
         return;
       }
+
       setError(undefined);
-      const result = await response.json();
-      setUrls(result.urls);
-    };
-    fetchData();
-  }, [refresh]);
-
-  const deleteUrl = async (url: string): Promise<void> => {
-    const response = await fetch(`${REACT_APP_SERVER_URL}api/url/${url}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-
-    if (!response.ok) {
-      if (response.status === 401) {
-        setLoggedIn(false);
-      } else {
-        setError('Could not delete URL. Please try again later.');
-      }
-      return;
+      setRefresh(!refresh);
+    } catch (e) {
+      setError('Could not delete URL. Please try again later.');
     }
-
-    setError(undefined);
-    setRefresh(!refresh);
   };
 
   return (

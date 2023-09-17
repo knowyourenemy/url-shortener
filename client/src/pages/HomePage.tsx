@@ -18,34 +18,38 @@ const HomePage: React.FC<HomePageProps> = ({ setLoggedIn }) => {
     setShortenedUrl(undefined);
   };
   const submitUrl = async () => {
-    if (!url) {
-      setError('Please input a URL to shorten.');
-      return;
-    }
-
-    const modifiedUrl = formatUrl(url);
-    setUrl(modifiedUrl);
-
-    const response = await fetch(`${REACT_APP_SERVER_URL}api/url/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ originalUrl: modifiedUrl }),
-    });
-
-    if (!response.ok) {
-      if (response.status === 400) {
-        setError('URL already exists. Please shorten another URL.');
-      } else if (response.status === 401) {
-        setLoggedIn(false);
-      } else {
-        setError('Something went wrong. Please try again later.');
+    try {
+      if (!url) {
+        setError('Please input a URL to shorten.');
+        return;
       }
-      return;
+
+      const modifiedUrl = formatUrl(url);
+      setUrl(modifiedUrl);
+
+      const response = await fetch(`${REACT_APP_SERVER_URL}api/url/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ originalUrl: modifiedUrl }),
+      });
+
+      if (!response.ok) {
+        if (response.status === 400) {
+          setError('URL already exists. Please shorten another URL.');
+        } else if (response.status === 401) {
+          setLoggedIn(false);
+        } else {
+          setError('Something went wrong. Please try again later.');
+        }
+        return;
+      }
+      setError(undefined);
+      const result = await response.json();
+      setShortenedUrl(parseEncodedUrl(result.shortenedUrl));
+    } catch (e) {
+      setError('Something went wrong. Please try again later.');
     }
-    setError(undefined);
-    const result = await response.json();
-    setShortenedUrl(parseEncodedUrl(result.shortenedUrl));
   };
 
   return (
