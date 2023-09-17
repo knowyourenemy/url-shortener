@@ -17,3 +17,32 @@
 .wrapper:active {
   transform: scale(1.1);
 }
+
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    width: 25px;
+    height: 25px;
+  }
+
+  .icon {
+    width: 25px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    width: 20px;
+    height: 20px;
+  }
+
+  .icon {
+    width: 20px;
+  }
+}

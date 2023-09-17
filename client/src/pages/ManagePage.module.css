@@ -47,11 +47,14 @@ th,
 td {
   padding: 10px 20px;
   border-bottom: 1px solid black;
+  max-width: 500px;
+  overflow: scroll;
 }
 
 .buttons {
   display: flex;
   flex-direction: row;
+  height: inherit;
 }
 
 .buttons > * {
@@ -65,3 +68,65 @@ td {
 /* tr {
   border-bottom: 1px solid white;
 } */
+
+@media screen and (max-width: 1024px) {
+  .table {
+    font-size: 1rem;
+  }
+
+  .table-header {
+    font-size: 1.2rem;
+  }
+
+  th,
+  td {
+    max-width: 350px;
+    padding: 10px 10px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    width: 90%;
+  }
+  .table {
+    font-size: 0.8rem;
+  }
+
+  .table-header {
+    font-size: 0.9rem;
+  }
+
+  th,
+  td {
+    padding: 10px 10px;
+    max-width: 250px;
+  }
+
+  .buttons > * {
+    margin: 5px;
+  }
+
+  @media screen and (max-width: 480px) {
+    .content {
+      width: 95%;
+    }
+    .table {
+      font-size: 0.7rem;
+    }
+
+    .table-header {
+      font-size: 0.8rem;
+    }
+
+    th,
+    td {
+      padding: 10px 8px;
+      max-width: 150px;
+    }
+
+    .buttons > * {
+      margin: 2px;
+    }
+  }
+}

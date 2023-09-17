@@ -18,5 +18,5 @@ export const formatUrl = (url: string): string => {
 
 export const formatDate = (epochTime: number): string => {
   const date = new Date(epochTime);
-  return date.toDateString();
+  return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
 };

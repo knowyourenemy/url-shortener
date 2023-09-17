@@ -85,9 +85,11 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
                       <td>{formatDate(1694992263000)}</td>
                       <td>{url.originalUrl}</td>
                       <td>{parseEncodedUrl(url.shortenedUrl)}</td>
-                      <td className={styles.buttons}>
-                        <IconButton onClick={() => copyUrl(parseEncodedUrl(url.shortenedUrl))} image={copyIcon} />
-                        <IconButton onClick={() => deleteUrl(url.shortenedUrl)} image={deleteIcon} />
+                      <td>
+                        <div className={styles.buttons}>
+                          <IconButton onClick={() => copyUrl(parseEncodedUrl(url.shortenedUrl))} image={copyIcon} />
+                          <IconButton onClick={() => deleteUrl(url.shortenedUrl)} image={deleteIcon} />
+                        </div>
                       </td>
                     </tr>
                   );
