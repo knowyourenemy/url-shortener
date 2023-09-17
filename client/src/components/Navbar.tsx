@@ -27,7 +27,7 @@ const Navbar: React.FC<NavbarProps> = ({ loggedIn, username, setLoggedIn }) => {
       <div className={styles.links}>
         {loggedIn ? (
           <>
-            <div className={styles.greeting}>Hello, {username}!</div>
+            <div className={styles.link}>Hello, {username}!</div>
             <div className={styles.link}>
               <NavLink to="/manage">Manage</NavLink>
             </div>
@@ -38,10 +38,10 @@ const Navbar: React.FC<NavbarProps> = ({ loggedIn, username, setLoggedIn }) => {
         ) : (
           <>
             <div className={styles.link}>
-              <NavLink to="/login">Login</NavLink>
+              <NavLink to="/signup">Sign Up</NavLink>
             </div>
             <div className={styles.link}>
-              <NavLink to="/signup">Sign Up</NavLink>
+              <NavLink to="/login">Login</NavLink>
             </div>
           </>
         )}
