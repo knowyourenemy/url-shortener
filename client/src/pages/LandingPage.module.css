@@ -21,3 +21,7 @@
   flex-direction: row;
   justify-content: center;
 }
+
+.buttons > * {
+  margin: 10px;
+}

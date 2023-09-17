@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from './SignUpPage.module.css';
 import bcrypt from 'bcrypt';
 import { REACT_APP_SERVER_URL } from '../util/config';
+import Button from '../components/Button';
 
 interface SignUpProps {
   setLoggedIn: (loggedIn: boolean) => void;
@@ -15,6 +16,26 @@ const SignUpPage: React.FC<SignUpProps> = ({ setLoggedIn, setLoggedInUsername })
   const [error, setError] = useState<string | undefined>();
 
   const submitForm = async () => {
+    if (!username || !password || !confirmPassword) {
+      setError('Please fill out the entire form.');
+      return;
+    }
+    if (username.length < 6) {
+      setError('Username must be at least 6 characters long.');
+      return;
+    }
+    if (password.length < 10) {
+      setError('Password must be at least 10 characters long.');
+      return;
+    }
+    if (username.length > 128) {
+      setError('Username must be at most 128 characters long.');
+      return;
+    }
+    if (password.length > 128) {
+      setError('Password must be at most 128 characters long.');
+      return;
+    }
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
@@ -29,11 +50,9 @@ const SignUpPage: React.FC<SignUpProps> = ({ setLoggedIn, setLoggedInUsername })
 
     if (!response.ok) {
       if (response.status === 400) {
-        setError('Incomplete information.');
-      } else if (response.status == 404) {
-        setError('User not found.');
+        setError('Username already exists. Please log in instead.');
       } else {
-        setError('Something went wrong.');
+        setError('Something went wrong. Please try again later.');
       }
       return;
     }
@@ -69,9 +88,9 @@ const SignUpPage: React.FC<SignUpProps> = ({ setLoggedIn, setLoggedInUsername })
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
-          <button type="button" onClick={submitForm}>
-            Submit
-          </button>
+          <div className={styles.row}>
+            <Button text="Submit" onClick={submitForm} />
+          </div>
         </form>
       </div>
     </div>
