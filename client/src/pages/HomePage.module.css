@@ -42,6 +42,7 @@
 .buttons {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .buttons > * {
@@ -56,4 +57,48 @@
   color: red;
   font-size: 1.2rem;
   margin: 15px 0px;
+}
+
+@media screen and (max-width: 1024px) {
+  .header,
+  .row,
+  .input {
+    font-size: 1.3rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header,
+  .row,
+  .input {
+    font-size: 1.1rem;
+  }
+
+  .content {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header,
+  .row,
+  .input {
+    font-size: 1rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .buttons > * {
+    margin: 5px 0px;
+  }
+
+  /* .buttons {
+    justify-content: space-between;
+  }
+
+  .buttons > * {
+    margin: 10px 0px;
+  } */
 }

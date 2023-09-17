@@ -1,5 +1,5 @@
 .wrapper {
-  width: 150px;
+  width: 160px;
   height: 40px;
   background-color: #ffb883ff;
   display: flex;
@@ -20,4 +20,31 @@
 
 .wrapper:active {
   transform: scale(1.1);
+}
+
+@media screen and (max-width: 1024px) {
+  .text {
+    font-size: 1.1rem;
+  }
+
+  .wrapper {
+    width: 130px;
+    height: 35px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .text {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    width: 120px;
+    height: 30px;
+  }
+  .text {
+    font-size: 0.9rem;
+  }
 }
