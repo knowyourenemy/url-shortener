@@ -1,0 +1,16 @@
+.wrapper {
+  width: 150px;
+  height: 40px;
+  background-color: #ffb883ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.text {
+  color: #2d3250;
+  font-size: 1.2rem;
+  font-weight: 600;
+}

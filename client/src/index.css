@@ -1,3 +1,7 @@
 body {
   margin: 0px;
+  font-family: 'Cabin';
+  font-weight: 400;
+  background-color: #2d3250;
+  color: white;
 }
