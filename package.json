@@ -1,0 +1,21 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "concurrently \"cd server && npm run dev\" \"cd client && npm run start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knowyourenemy/url-shortener.git"
+  },
+  "author": "Aaditya Patwari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/knowyourenemy/url-shortener/issues"
+  },
+  "homepage": "https://github.com/knowyourenemy/url-shortener#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.1"
+  }
+}

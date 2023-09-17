@@ -16,19 +16,21 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const tryLogin = async () => {
-      if (!loggedIn) {
-        const response = await fetch(`${REACT_APP_SERVER_URL}api/user/`, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-        });
+      try {
+        if (!loggedIn) {
+          const response = await fetch(`${REACT_APP_SERVER_URL}api/user/`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+          });
 
-        if (response.ok) {
-          const data = await response.json();
-          setLoggedIn(true);
-          setUsername(data.username);
+          if (response.ok) {
+            const data = await response.json();
+            setLoggedIn(true);
+            setUsername(data.username);
+          }
         }
-      }
+      } catch (e) {}
     };
     tryLogin();
   }, []);
