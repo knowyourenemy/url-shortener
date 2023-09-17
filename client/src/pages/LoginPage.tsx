@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './LoginPage.module.css';
 import { REACT_APP_SERVER_URL } from '../util/config';
+import Button from '../components/Button';
 
 interface LoginProps {
   setLoggedIn: (loggedIn: boolean) => void;
@@ -13,6 +14,11 @@ const LoginPage: React.FC<LoginProps> = ({ setLoggedIn, setLoggedInUsername }) =
   const [error, setError] = useState<string | undefined>();
 
   const submitForm = async () => {
+    if (!username || !password) {
+      setError('Please fill out the entire form.');
+      return;
+    }
+
     const response = await fetch(`${REACT_APP_SERVER_URL}api/user/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -22,11 +28,11 @@ const LoginPage: React.FC<LoginProps> = ({ setLoggedIn, setLoggedInUsername }) =
 
     if (!response.ok) {
       if (response.status === 400) {
-        setError('Incomplete information.');
+        setError('Please fill out the entire form.');
       } else if (response.status == 404) {
-        setError('User not found.');
+        setError('User not found. Please ensure the username and password is correct.');
       } else {
-        setError('Something went wrong.');
+        setError('Something went wrong. Please try again later.');
       }
       return;
     }
@@ -53,9 +59,9 @@ const LoginPage: React.FC<LoginProps> = ({ setLoggedIn, setLoggedInUsername }) =
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button type="button" onClick={submitForm}>
-            Submit
-          </button>
+          <div className={styles.row}>
+            <Button text="Submit" onClick={submitForm} />
+          </div>
         </form>
       </div>
     </div>
