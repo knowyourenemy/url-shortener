@@ -54,6 +54,29 @@ export const checkOriginalUrlExists = async (originalUrl: string, userId: Object
 };
 
 /**
+ * Check if URL with given shortenedUrl already exists.
+ * @param shortenedUrl - URL to check.
+ */
+export const checkShortenedUrlExists = async (shortenedUrl: string): Promise<boolean> => {
+  try {
+    const urlCollection = getUrlCollection();
+    const res = await urlCollection.findOne({
+      shortenedUrl: shortenedUrl,
+    });
+    if (!res) {
+      return false;
+    }
+    return true;
+  } catch (e: any) {
+    if (e instanceof AppError) {
+      throw e;
+    } else {
+      throw new DbError(e.message);
+    }
+  }
+};
+
+/**
  * Get URL for given shortened URL.
  * @param shortenedUrl - shortened URL.
  * @returns {WithId<IUrl>} URL document.

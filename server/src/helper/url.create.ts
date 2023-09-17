@@ -1,12 +1,12 @@
 import { ObjectId } from 'mongodb';
-import { IUrl, checkOriginalUrlExists, insertUrl } from '../models/url.db';
+import { IUrl, checkOriginalUrlExists, checkShortenedUrlExists, insertUrl } from '../models/url.db';
 import { AppError, BadRequestError, HelperError } from '../util/appError';
 
 // a-zA-Z0-9
 // Excludes 'l', 'L', 'o', 'O', '0', '1' to make URL easier to read.
 // This is because some of these characters (e.g. l, 1) are easily confused with each other.
 const AVAILABLE_CHARS = 'abcdefghijkmnpqrstuvwxyzABCDEFGHIJKMNPQRSTUVWXYZ23456789';
-const ENCODE_LENGTH = 7;
+const ENCODE_LENGTH = 5;
 
 /**
  * generate random string of length ENCODE_LENGTH from characters in AVAILABLE_CHARS.
@@ -39,7 +39,12 @@ export const createUrl = async (originalUrl: string, userId: ObjectId): Promise<
     if (urlExists) {
       throw new BadRequestError('URL already exists.');
     }
-    const shortenedUrl = generateRandomString();
+    let shortenedUrl = generateRandomString();
+    let shortenedUrlExists = await checkShortenedUrlExists(shortenedUrl);
+    while (shortenedUrlExists) {
+      shortenedUrl = generateRandomString();
+      shortenedUrlExists = await checkShortenedUrlExists(shortenedUrl);
+    }
     const urlData: IUrl = {
       userId: userId,
       originalUrl: originalUrl,
