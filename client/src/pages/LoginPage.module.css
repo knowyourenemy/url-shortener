@@ -11,7 +11,8 @@
   display: flex;
   flex-direction: column;
   text-align: left;
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
   border: 2px solid white;
   border-radius: 10px;
   padding: 10px 10px;
@@ -41,4 +42,45 @@
 .error {
   color: red;
   font-size: 1.2rem;
+}
+
+@media screen and (max-width: 1024px) {
+  .row {
+    font-size: 1.3rem;
+  }
+
+  .input,
+  .error {
+    font-size: 1.1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .row {
+    font-size: 1.1rem;
+  }
+
+  .input,
+  .error {
+    font-size: 1rem;
+  }
+
+  .content {
+    max-width: 430px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .content {
+    width: 300px;
+  }
+
+  row {
+    font-size: 1rem;
+  }
+
+  .input,
+  .error {
+    font-size: 0.9rem;
+  }
 }
