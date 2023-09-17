@@ -8,10 +8,31 @@ import HomePage from './pages/HomePage';
 import UrlPage from './pages/UrlPage';
 import ManagePage from './pages/ManagePage';
 import SignUpPage from './pages/SignUpPage';
+import { REACT_APP_SERVER_URL } from './util/config';
 
 const App: React.FC = () => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [username, setUsername] = useState<string | undefined>();
+
+  useEffect(() => {
+    const tryLogin = async () => {
+      if (!loggedIn) {
+        const response = await fetch(`${REACT_APP_SERVER_URL}api/user/`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setLoggedIn(true);
+          setUsername(data.username);
+        }
+      }
+    };
+    tryLogin();
+  }, []);
+
   return (
     <div className={styles.App}>
       <Navbar loggedIn={loggedIn} setLoggedIn={setLoggedIn} username={username} />
