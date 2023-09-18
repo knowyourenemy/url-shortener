@@ -12,6 +12,13 @@ const SALT_ROUNDS = 10;
  */
 export const createUser = async (userData: Pick<IUser, 'username' | 'password'>): Promise<string> => {
   try {
+    if (userData.username.length < 6 || userData.username.length > 128) {
+      throw new BadRequestError('Username must be between 6 - 128 characters long.');
+    }
+
+    if (userData.password.length < 10 || userData.password.length > 128) {
+      throw new BadRequestError('Password must be between 10 - 128 characters long.');
+    }
     const userExists = await checkUsernameExists(userData.username);
     if (userExists) {
       throw new BadRequestError('User already exists.');
