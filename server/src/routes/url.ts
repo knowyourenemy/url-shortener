@@ -11,7 +11,9 @@ const router = express.Router();
 
 router
   /**
-   * Get original URL from shortened URL.
+   * GET /api/url/:shortenedUrl
+   * @param {string} shortenedUrl - Shortened URL.
+   * Get original URL from shortened URL. Returns a 301 redirect.
    * Does not require authentication.
    */
   .get('/:shortenedUrl', async (req: Request, res: Response, next: NextFunction) => {
@@ -30,6 +32,8 @@ router
     }
   })
   /**
+   * DELETE /api/url/:shortenedUrl
+   * @param {string} shortenedUrl - Shortened URL to be deleted.
    * Delete shortened URL.
    * Requires user to be authenticated.
    */
@@ -51,6 +55,9 @@ router
 
 router
   /**
+   * POST /api/url
+   * @param {string} originalUrl - Original URL to be shortened.
+   * @returns {{shortenedUrl: string}} - Shortened url.
    * Create new URL.
    * Requires user to be authenticated.
    */
@@ -70,6 +77,8 @@ router
     }
   })
   /**
+   * GET /api/url
+   * @returns {IUrlWithDate[]} User URLs.
    * Get all user URLS.
    * Requires user to be authenticated.
    */
