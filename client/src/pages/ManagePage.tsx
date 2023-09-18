@@ -9,6 +9,7 @@ import Button from '../components/Button';
 interface IUrl {
   shortenedUrl: string;
   originalUrl: string;
+  createdDate: number;
 }
 
 interface ManagePageProps {
@@ -92,7 +93,7 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
                   {urls.map((url, idx) => {
                     return (
                       <tr key={idx}>
-                        <td>{formatDate(1694992263000)}</td>
+                        <td>{formatDate(url.createdDate)}</td>
                         <td>{url.originalUrl}</td>
                         <td>{parseEncodedUrl(url.shortenedUrl)}</td>
                         <td>

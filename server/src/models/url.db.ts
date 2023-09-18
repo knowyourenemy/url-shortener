@@ -8,6 +8,10 @@ export interface IUrl {
   originalUrl: string;
 }
 
+export interface IUrlWithDate extends IUrl {
+  createdDate: number;
+}
+
 /**
  * Insert new url into DB
  * @param urlData - Url document.
@@ -103,13 +107,19 @@ export const getUrl = async (shortenedUrl: string): Promise<WithId<IUrl>> => {
 /**
  * Get all URLs for given user.
  * @param userId - Object Id of user.
- * @returns {WithId<IUrl>[]} Url documents of given user.
+ * @returns {IUrlWithDate[]} Url documents of given user.
  */
-export const getAllUserUrls = async (userId: ObjectId): Promise<WithId<IUrl>[]> => {
+export const getAllUserUrls = async (userId: ObjectId): Promise<IUrlWithDate[]> => {
   try {
     const urlCollection = getUrlCollection();
-    const res = await urlCollection.find({ userId: userId }).toArray();
-    return res;
+    const urls = await urlCollection.find({ userId: userId }).sort({ _id: -1 }).toArray();
+    const urlsWithDates = urls.map((url) => {
+      return {
+        ...url,
+        createdDate: url._id.getTimestamp().getTime(),
+      };
+    });
+    return urlsWithDates;
   } catch (e: any) {
     if (e instanceof AppError) {
       throw e;
