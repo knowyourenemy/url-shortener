@@ -23,7 +23,6 @@ router.post('/login', async (req: Request, res: Response, next: NextFunction) =>
       .cookie('sessionId', sessionId, {
         secure: true,
         httpOnly: true,
-        sameSite: 'none',
       })
       .sendStatus(200);
   } catch (e: any) {
@@ -75,7 +74,6 @@ router
         .cookie('sessionId', sessionId, {
           secure: true,
           httpOnly: true,
-          sameSite: 'none',
         })
         .sendStatus(200);
     } catch (e: any) {
