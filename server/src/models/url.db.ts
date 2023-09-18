@@ -19,8 +19,8 @@ export interface IUrlWithDate extends IUrl {
 export const insertUrl = async (urlData: IUrl): Promise<void> => {
   try {
     const urlCollection = getUrlCollection();
-    const res = await urlCollection.insertOne(urlData);
-    if (!res.acknowledged) {
+    const insertResult = await urlCollection.insertOne(urlData);
+    if (!insertResult.acknowledged) {
       throw new DbError(`Could not insert url ${urlData.originalUrl} for user ${urlData.userId}.`);
     }
   } catch (e: any) {
@@ -40,11 +40,11 @@ export const insertUrl = async (urlData: IUrl): Promise<void> => {
 export const checkOriginalUrlExists = async (originalUrl: string, userId: ObjectId): Promise<boolean> => {
   try {
     const urlCollection = getUrlCollection();
-    const res = await urlCollection.findOne({
+    const url = await urlCollection.findOne({
       userId: userId,
       originalUrl: originalUrl,
     });
-    if (!res) {
+    if (!url) {
       return false;
     }
     return true;
@@ -64,10 +64,10 @@ export const checkOriginalUrlExists = async (originalUrl: string, userId: Object
 export const checkShortenedUrlExists = async (shortenedUrl: string): Promise<boolean> => {
   try {
     const urlCollection = getUrlCollection();
-    const res = await urlCollection.findOne({
+    const url = await urlCollection.findOne({
       shortenedUrl: shortenedUrl,
     });
-    if (!res) {
+    if (!url) {
       return false;
     }
     return true;
@@ -88,13 +88,13 @@ export const checkShortenedUrlExists = async (shortenedUrl: string): Promise<boo
 export const getUrl = async (shortenedUrl: string): Promise<WithId<IUrl>> => {
   try {
     const urlCollection = getUrlCollection();
-    const res = await urlCollection.findOne({
+    const url = await urlCollection.findOne({
       shortenedUrl: shortenedUrl,
     });
-    if (!res) {
+    if (!url) {
       throw new NotFoundError('URL not found.');
     }
-    return res;
+    return url;
   } catch (e: any) {
     if (e instanceof AppError) {
       throw e;
@@ -136,10 +136,10 @@ export const getAllUserUrls = async (userId: ObjectId): Promise<IUrlWithDate[]> 
 export const deleteUrl = async (shortenedUrl: string): Promise<void> => {
   try {
     const urlCollection = getUrlCollection();
-    const res = await urlCollection.deleteOne({
+    const deleteResult = await urlCollection.deleteOne({
       shortenedUrl: shortenedUrl,
     });
-    if (!res.acknowledged) {
+    if (!deleteResult.acknowledged) {
       throw new DbError(`Could not delete url with shorened URL ${shortenedUrl}.`);
     }
   } catch (e: any) {

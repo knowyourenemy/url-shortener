@@ -22,8 +22,8 @@ export interface IUser {
 export const insertUser = async (userData: IUser): Promise<void> => {
   try {
     const userCollection = getUserCollection();
-    const res = await userCollection.insertOne(userData);
-    if (!res.acknowledged) {
+    const insertResult = await userCollection.insertOne(userData);
+    if (!insertResult.acknowledged) {
       throw new DbError(`Could not insert user with username ${userData.username}.`);
     }
   } catch (e: any) {
@@ -43,13 +43,13 @@ export const insertUser = async (userData: IUser): Promise<void> => {
 export const checkValidSession = async (sessionId: string): Promise<boolean> => {
   try {
     const userCollection = getUserCollection();
-    const res = await userCollection.findOne({
+    const user = await userCollection.findOne({
       'sessions.sessionId': sessionId,
       'sessions.expiry': {
         $gt: Date.now(),
       },
     });
-    if (!res) {
+    if (!user) {
       return false;
     }
     return true;
@@ -70,16 +70,16 @@ export const checkValidSession = async (sessionId: string): Promise<boolean> => 
 export const findUserBySession = async (sessionId: string): Promise<WithId<IUser>> => {
   try {
     const userCollection = getUserCollection();
-    const res = await userCollection.findOne({
+    const user = await userCollection.findOne({
       'sessions.sessionId': sessionId,
       'sessions.expiry': {
         $gt: Date.now(),
       },
     });
-    if (!res) {
+    if (!user) {
       throw new NotFoundError('User not found');
     }
-    return res;
+    return user;
   } catch (e: any) {
     if (e instanceof AppError) {
       throw e;
