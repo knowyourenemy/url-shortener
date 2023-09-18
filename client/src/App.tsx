@@ -13,6 +13,7 @@ const App: React.FC = () => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [username, setUsername] = useState<string | undefined>();
 
+  // Try logging in if possible.
   useEffect(() => {
     const tryLogin = async () => {
       try {
