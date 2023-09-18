@@ -1,7 +1,7 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { connectToDatabase } from './db';
-import { AppError } from './util/appError';
+import { AppError, MissingEnvError } from './util/appError';
 import userRouter from './routes/user';
 import urlRouter from './routes/url';
 import cookieParser from 'cookie-parser';
@@ -13,9 +13,12 @@ dotenv.config();
  * Create and start express server
  */
 const serveApp = async () => {
+  if (!process.env.DB_CONN_STRING) {
+    throw new MissingEnvError();
+  }
   const app: Express = express();
   const port = process.env.PORT;
-  await connectToDatabase();
+  await connectToDatabase(process.env.DB_CONN_STRING);
   app.use(express.json());
   app.use(cookieParser());
   app.use(

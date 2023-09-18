@@ -8,37 +8,28 @@ import dotenv from 'dotenv';
 let dbConnection: Db;
 let userCollection: Collection<IUser>;
 let urlCollection: Collection<IUrl>;
+let client: MongoClient;
 
 dotenv.config();
 
 /**
  * Establish connection to DB.
  */
-export const connectToDatabase = async () => {
+export const connectToDatabase = async (uri: string) => {
   try {
-    if (
-      !process.env.DB_CONN_STRING ||
-      !process.env.DB_NAME ||
-      !process.env.USER_COLLECTION_NAME ||
-      !process.env.URL_COLLECTION_NAME
-    ) {
+    if (!process.env.DB_NAME || !process.env.USER_COLLECTION_NAME || !process.env.URL_COLLECTION_NAME) {
       throw new MissingEnvError();
     }
 
     let dbUri: string;
 
-    if (process.env.NODE_ENV === 'test') {
-      const mongoMemoryServer = new MongoMemoryServer();
-      await mongoMemoryServer.start();
-      dbUri = mongoMemoryServer.getUri();
-    } else {
-      dbUri = process.env.DB_CONN_STRING;
-    }
-    const client = new MongoClient(process.env.DB_CONN_STRING);
+    client = new MongoClient(uri);
     await client.connect();
+
     dbConnection = client.db(process.env.DB_NAME);
     userCollection = dbConnection.collection(process.env.USER_COLLECTION_NAME);
     urlCollection = dbConnection.collection(process.env.URL_COLLECTION_NAME);
+
     console.log(`Successfully connected to database: ${dbConnection.databaseName}.`);
   } catch (e: any) {
     if (e instanceof AppError) {
@@ -47,6 +38,13 @@ export const connectToDatabase = async () => {
       throw new DbError('Could not connect to DB.');
     }
   }
+};
+
+/**
+ *
+ */
+export const disconnect = async () => {
+  await client.close();
 };
 
 export const getUserCollection = (): Collection<IUser> => userCollection;
