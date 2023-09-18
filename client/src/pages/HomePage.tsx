@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import styles from './HomePage.module.css';
-import { REACT_APP_CLIENT_URL, REACT_APP_SERVER_URL } from '../util/config';
 import { copyUrl, formatUrl, parseEncodedUrl } from '../util/urlUtil';
 import Button from '../components/Button';
 
@@ -27,7 +26,7 @@ const HomePage: React.FC<HomePageProps> = ({ setLoggedIn }) => {
       const modifiedUrl = formatUrl(url);
       setUrl(modifiedUrl);
 
-      const response = await fetch(`${REACT_APP_SERVER_URL}api/url/`, {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}api/url/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

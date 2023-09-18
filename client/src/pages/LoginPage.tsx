@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import styles from './LoginPage.module.css';
-import { REACT_APP_SERVER_URL } from '../util/config';
 import Button from '../components/Button';
 
 interface LoginProps {
@@ -20,7 +19,7 @@ const LoginPage: React.FC<LoginProps> = ({ setLoggedIn, setLoggedInUsername }) =
         return;
       }
 
-      const response = await fetch(`${REACT_APP_SERVER_URL}api/user/login`, {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}api/user/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

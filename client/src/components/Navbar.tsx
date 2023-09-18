@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom';
 import styles from './Navbar.module.css';
-import { REACT_APP_SERVER_URL } from '../util/config';
 
 interface NavbarProps {
   loggedIn: boolean;
@@ -10,7 +9,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ loggedIn, username, setLoggedIn }) => {
   const logout = async () => {
-    await fetch(`${REACT_APP_SERVER_URL}api/user/logout`, {
+    await fetch(`${process.env.REACT_APP_SERVER_URL}api/user/logout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

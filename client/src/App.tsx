@@ -8,7 +8,6 @@ import HomePage from './pages/HomePage';
 import UrlPage from './pages/UrlPage';
 import ManagePage from './pages/ManagePage';
 import SignUpPage from './pages/SignUpPage';
-import { REACT_APP_SERVER_URL } from './util/config';
 
 const App: React.FC = () => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
@@ -18,7 +17,7 @@ const App: React.FC = () => {
     const tryLogin = async () => {
       try {
         if (!loggedIn) {
-          const response = await fetch(`${REACT_APP_SERVER_URL}api/user/`, {
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}api/user/`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
