@@ -7,6 +7,14 @@ interface HomePageProps {
   setLoggedIn: (loggedIn: boolean) => void;
 }
 
+interface SubmitUrlReq {
+  originalUrl: string;
+}
+
+interface SubmitUrlRes {
+  shortenedUrl: string;
+}
+
 const HomePage: React.FC<HomePageProps> = ({ setLoggedIn }) => {
   const [url, setUrl] = useState<string | undefined>();
   const [shortenedUrl, setShortenedUrl] = useState<string | undefined>();
@@ -26,11 +34,15 @@ const HomePage: React.FC<HomePageProps> = ({ setLoggedIn }) => {
       const modifiedUrl = formatUrl(url);
       setUrl(modifiedUrl);
 
+      const submitUrlRequest: SubmitUrlReq = {
+        originalUrl: modifiedUrl,
+      };
+
       const response = await fetch(`${process.env.REACT_APP_SERVER_URL}api/url/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ originalUrl: modifiedUrl }),
+        body: JSON.stringify(submitUrlRequest),
       });
 
       if (!response.ok) {
@@ -44,8 +56,8 @@ const HomePage: React.FC<HomePageProps> = ({ setLoggedIn }) => {
         return;
       }
       setError(undefined);
-      const result = await response.json();
-      setShortenedUrl(parseEncodedUrl(result.shortenedUrl));
+      const submitResult: SubmitUrlRes = await response.json();
+      setShortenedUrl(parseEncodedUrl(submitResult.shortenedUrl));
     } catch (e) {
       setError('Something went wrong. Please try again later.');
     }

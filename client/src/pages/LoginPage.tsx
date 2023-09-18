@@ -7,6 +7,11 @@ interface LoginProps {
   setLoggedInUsername: (username: string | undefined) => void;
 }
 
+interface LoginReq {
+  username: string;
+  password: string;
+}
+
 const LoginPage: React.FC<LoginProps> = ({ setLoggedIn, setLoggedInUsername }) => {
   const [username, setUsername] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
@@ -19,11 +24,16 @@ const LoginPage: React.FC<LoginProps> = ({ setLoggedIn, setLoggedInUsername }) =
         return;
       }
 
+      const loginRequest: LoginReq = {
+        username: username,
+        password: password,
+      };
+
       const response = await fetch(`${process.env.REACT_APP_SERVER_URL}api/user/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ username: username, password: password }),
+        body: JSON.stringify(loginRequest),
       });
 
       if (!response.ok) {

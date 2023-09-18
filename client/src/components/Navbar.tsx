@@ -8,7 +8,7 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ loggedIn, username, setLoggedIn }) => {
-  const logout = async () => {
+  const logout = async (): Promise<void> => {
     await fetch(`${process.env.REACT_APP_SERVER_URL}api/user/logout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

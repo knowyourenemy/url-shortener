@@ -5,11 +5,16 @@ import IconButton from '../components/IconButton';
 import copyIcon from '../assets/copy.png';
 import deleteIcon from '../assets/delete.svg';
 import Button from '../components/Button';
+import { url } from 'inspector';
 
 interface IUrl {
   shortenedUrl: string;
   originalUrl: string;
   createdDate: number;
+}
+
+interface UrlsRes {
+  urls: IUrl[];
 }
 
 interface ManagePageProps {
@@ -39,8 +44,8 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
           return;
         }
         setError(undefined);
-        const result = await response.json();
-        setUrls(result.urls);
+        const urls: UrlsRes = await response.json();
+        setUrls(urls.urls);
       } catch (e) {
         setError('Something went wrong. Please try again later.');
       }
