@@ -20,7 +20,7 @@ const serveApp = async () => {
   app.use(cookieParser());
   app.use(
     cors({
-      origin: ['http://localhost:3000', 'https://url-shortener-frontend-6lqjmu4qla-as.a.run.app'],
+      origin: ['http://localhost:3000', 'https://shrtn.net'],
       credentials: true,
     }),
   );
