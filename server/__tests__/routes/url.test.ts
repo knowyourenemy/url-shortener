@@ -11,6 +11,7 @@ const MOCK_SHORT_URL = 'mock-short-url';
 const MOCK_USER_ID = new ObjectId();
 
 beforeEach(async () => {
+  // Clear URL Collection before each test.
   await getUrlCollection().deleteMany();
 });
 
