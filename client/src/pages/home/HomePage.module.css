@@ -21,10 +21,11 @@
 .input {
   height: 40px;
   margin: 15px 0px;
+  padding: 0;
   font-size: 1.5rem;
   background-color: #424769;
-  border: none;
   color: white;
+  width: 100%;
 }
 
 .input:focus {
