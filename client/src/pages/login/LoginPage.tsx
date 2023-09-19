@@ -39,7 +39,7 @@ const LoginPage: React.FC<LoginProps> = ({ setLoggedIn, setLoggedInUsername }) =
       if (!response.ok) {
         if (response.status === 400) {
           setError('Please fill out the entire form.');
-        } else if (response.status == 404) {
+        } else if (response.status === 404) {
           setError('User not found. Please ensure the username and password is correct.');
         } else {
           setError('Something went wrong. Please try again later.');

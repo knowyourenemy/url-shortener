@@ -1,7 +1,6 @@
 import { ObjectId } from 'mongodb';
-import { connectToDatabase, disconnect, getUrlCollection } from '../../src/db';
+import { getUrlCollection } from '../../src/db';
 import { checkOriginalUrlExists, getUrl, insertUrl } from '../../src/models/url.db';
-import { MongoMemoryServer } from 'mongodb-memory-server';
 
 beforeEach(async () => {
   // Clear URL Collection before each test.

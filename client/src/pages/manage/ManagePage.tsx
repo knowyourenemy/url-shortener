@@ -5,7 +5,6 @@ import IconButton from '../../components/button/IconButton';
 import copyIcon from '../assets/copy.png';
 import deleteIcon from '../assets/delete.svg';
 import Button from '../../components/button/Button';
-import { url } from 'inspector';
 
 interface IUrl {
   shortenedUrl: string;
@@ -103,8 +102,16 @@ const ManagePage: React.FC<ManagePageProps> = ({ setLoggedIn }) => {
                         <td>{parseEncodedUrl(url.shortenedUrl)}</td>
                         <td>
                           <div className={styles['table-buttons']}>
-                            <IconButton onClick={() => copyUrl(parseEncodedUrl(url.shortenedUrl))} image={copyIcon} />
-                            <IconButton onClick={() => deleteUrl(url.shortenedUrl)} image={deleteIcon} />
+                            <IconButton
+                              onClick={() => copyUrl(parseEncodedUrl(url.shortenedUrl))}
+                              image={copyIcon}
+                              iconAlt="copy"
+                            />
+                            <IconButton
+                              onClick={() => deleteUrl(url.shortenedUrl)}
+                              image={deleteIcon}
+                              iconAlt="delete"
+                            />
                           </div>
                         </td>
                       </tr>

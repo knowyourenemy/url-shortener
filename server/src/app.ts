@@ -1,7 +1,5 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
-import dotenv from 'dotenv';
-import { connectToDatabase } from './db';
-import { AppError, MissingEnvError } from './util/appError';
+import { AppError } from './util/appError';
 import userRouter from './routes/user';
 import urlRouter from './routes/url';
 import cookieParser from 'cookie-parser';
@@ -22,6 +20,7 @@ export const makeApp = () => {
   });
   app.use('/api/user', userRouter);
   app.use('/api/url', urlRouter);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err);
     if (err instanceof AppError) {

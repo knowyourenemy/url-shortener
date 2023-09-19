@@ -1,8 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { authenticate } from '../middleware/authenticate';
 import { AppError, BadRequestError, RouteError } from '../util/appError';
-import { createUser } from '../helper/user.create';
-import { loginUser } from '../helper/user.login';
 import { createUrl } from '../helper/url.create';
 import { deleteUrl, getAllUserUrls, getUrl } from '../models/url.db';
 import { authorize } from '../middleware/authorize';

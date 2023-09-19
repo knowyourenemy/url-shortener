@@ -2,7 +2,6 @@ import { MongoClient, Db, Collection } from 'mongodb';
 import { AppError, DbError, MissingEnvError } from './util/appError';
 import { IUser } from './models/user.db';
 import { IUrl } from './models/url.db';
-import { MongoMemoryServer } from 'mongodb-memory-server';
 import dotenv from 'dotenv';
 
 let dbConnection: Db;
@@ -20,8 +19,6 @@ export const connectToDatabase = async (uri: string) => {
     if (!process.env.DB_NAME || !process.env.USER_COLLECTION_NAME || !process.env.URL_COLLECTION_NAME) {
       throw new MissingEnvError();
     }
-
-    let dbUri: string;
 
     client = new MongoClient(uri);
     await client.connect();

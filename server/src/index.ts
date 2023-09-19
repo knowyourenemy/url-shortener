@@ -1,11 +1,7 @@
-import express, { Express, NextFunction, Request, Response } from 'express';
+import { Express } from 'express';
 import dotenv from 'dotenv';
 import { connectToDatabase } from './db';
-import { AppError, MissingEnvError } from './util/appError';
-import userRouter from './routes/user';
-import urlRouter from './routes/url';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
+import { MissingEnvError } from './util/appError';
 import { makeApp } from './app';
 
 dotenv.config();
