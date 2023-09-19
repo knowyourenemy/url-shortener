@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import styles from './ManagePage.module.css';
 import { copyUrl, formatDate, parseEncodedUrl } from '../../util/urlUtil';
 import IconButton from '../../components/button/IconButton';
-import copyIcon from '../assets/copy.png';
-import deleteIcon from '../assets/delete.svg';
+import copyIcon from '../../assets/copy.png';
+import deleteIcon from '../../assets/delete.svg';
 import Button from '../../components/button/Button';
 
 interface IUrl {
