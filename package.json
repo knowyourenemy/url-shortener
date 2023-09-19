@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "concurrently \"cd server && npm run dev\" \"cd client && npm run start\""
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run start\""
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,10 @@
   },
   "homepage": "https://github.com/knowyourenemy/url-shortener#readme",
   "devDependencies": {
-    "concurrently": "^8.2.1"
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "concurrently": "^8.2.1",
+    "eslint": "^8.49.0",
+    "eslint-plugin-react": "^7.33.2"
   }
 }
