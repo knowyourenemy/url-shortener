@@ -3,7 +3,7 @@ import { getUserCollection } from '../db';
 import { AppError, DbError, NotFoundError } from '../util/appError';
 
 // Duration (in ms) to keep session alive.
-export const SESSION_DURATION = 5 * 60 * 1000;
+export const SESSION_DURATION = 24 * 60 * 60 * 1000;
 
 export interface ISession {
   sessionId: string;
