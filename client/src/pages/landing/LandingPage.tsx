@@ -1,4 +1,4 @@
-import Button from '../components/Button';
+import Button from '../../components/button/Button';
 import styles from './LandingPage.module.css';
 
 const LandingPage: React.FC = () => {

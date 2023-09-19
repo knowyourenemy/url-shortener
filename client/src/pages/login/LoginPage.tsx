@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './LoginPage.module.css';
-import Button from '../components/Button';
+import Button from '../../components/button/Button';
 
 interface LoginProps {
   setLoggedIn: (loggedIn: boolean) => void;

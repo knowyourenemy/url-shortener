@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './HomePage.module.css';
-import { copyUrl, formatUrl, parseEncodedUrl } from '../util/urlUtil';
-import Button from '../components/Button';
+import { copyUrl, formatUrl, parseEncodedUrl } from '../../util/urlUtil';
+import Button from '../../components/button/Button';
 
 interface HomePageProps {
   setLoggedIn: (loggedIn: boolean) => void;

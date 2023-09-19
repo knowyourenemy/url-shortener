@@ -1,13 +1,13 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import Navbar from './components/navbar/Navbar';
 import styles from './App.module.css';
 import { useEffect, useState } from 'react';
-import LoginPage from './pages/LoginPage';
-import LandingPage from './pages/LandingPage';
-import HomePage from './pages/HomePage';
-import UrlPage from './pages/UrlPage';
-import ManagePage from './pages/ManagePage';
-import SignUpPage from './pages/SignUpPage';
+import LoginPage from './pages/login/LoginPage';
+import LandingPage from './pages/landing/LandingPage';
+import HomePage from './pages/home/HomePage';
+import UrlPage from './pages/url/UrlPage';
+import ManagePage from './pages/manage/ManagePage';
+import SignUpPage from './pages/signup/SignUpPage';
 
 const App: React.FC = () => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
