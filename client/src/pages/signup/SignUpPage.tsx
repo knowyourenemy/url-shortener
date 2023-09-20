@@ -56,7 +56,7 @@ const SignUpPage: React.FC<SignUpProps> = ({ setLoggedIn, setLoggedInUsername })
 
       if (!response.ok) {
         if (response.status === 400) {
-          setError('Username already exists. Please log in instead.');
+          setError('Username already exists. Please try another username or log in instead.');
         } else {
           setError('Something went wrong. Please try again later.');
         }
