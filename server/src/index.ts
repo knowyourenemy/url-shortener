@@ -14,7 +14,7 @@ const serveApp = async () => {
     throw new MissingEnvError();
   }
   const app: Express = makeApp();
-  const port = process.env.PORT;
+  const port = process.env.PORT || 8000;
   await connectToDatabase(process.env.DB_CONN_STRING);
 
   app.listen(port, () => {
