@@ -77,11 +77,11 @@ const HomePage: React.FC<HomePageProps> = ({ setLoggedIn }) => {
           <>
             <div className={styles.row}>
               <div className={styles.label}>Long URL:</div>
-              <input className={styles.input} value={url} disabled={true} />
+              <input className={styles.input} value={url} readOnly={true} />
             </div>
             <div className={styles.row}>
               <div className={styles.label}>Short URL:</div>
-              <input className={styles.input} value={shortenedUrl} disabled={true} />
+              <input className={styles.input} value={shortenedUrl} readOnly={true} />
             </div>
             <div className={styles.buttons}>
               <Button onClick={() => copyUrl(shortenedUrl)} text="Copy" />
